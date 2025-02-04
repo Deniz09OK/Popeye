@@ -1,1 +1,0 @@
-# Popeye-T-DOP-601-NCY-
