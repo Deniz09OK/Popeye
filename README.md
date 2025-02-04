@@ -3,7 +3,7 @@
 🐳 Popeye - Projet DevOps avec Docker 🐳
 Bienvenue sur Popeye, un projet basé sur Docker et Docker Compose permettant de déployer une application complète de vote en utilisant Flask, Redis, Java et Node.js.
 
-![Popeye et Docker](images/Popeye%20et%20docker.png)
+![Popeye et Docker](images/popeye-docker.png)
 
 📖 Description du Projet
 Popeye est une application Web où les utilisateurs peuvent voter et voir les résultats en temps réel. L'application est conteneurisée avec Docker et repose sur plusieurs microservices :
@@ -14,7 +14,7 @@ Popeye est une application Web où les utilisateurs peuvent voter et voir les r�
 🐘 db (PostgreSQL) : Stockage des votes.
 🚀 result (Node.js) : Interface affichant les résultats.
 
-![Schéma du projet](images/schéma%20du%20projet.png)
+![Schéma du projet](images/schema-projet.png)
 
 🛠️ Technologies utilisées
 Docker & Docker Compose
@@ -81,4 +81,4 @@ Traitement par le worker.
 Enregistrés dans la base de données PostgreSQL (db).
 Affichés dynamiquement sur result.
 
-![Popeye du dessin animé](images/Popeye%20du%20dessin%20annimé.png)
+![Popeye du dessin animé](images/popeye-dessin-anime.png)
