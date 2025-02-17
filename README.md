@@ -39,13 +39,13 @@ docker --version
 docker-compose --version                                      
 
 ⚙️ Configurer l'environnement (.env)
-Avant de démarrer l'application, créez un fichier .env à la racine du projet.
-Ajoutez-y les variables d'environnement suivantes :
-REDIS_HOST=redis
-POSTGRES_HOST=db
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=postgres
+Avant de démarrer l'application, créez un fichier .env à la racine du projet.                               
+Ajoutez-y les variables d'environnement suivantes :                                                              
+REDIS_HOST=redis                                                          
+POSTGRES_HOST=db                                      
+POSTGRES_USER=postgres                          
+POSTGRES_PASSWORD=postgres                         
+POSTGRES_DB=postgres                                          
 
 Ajoutez ensuite le fichier .env au fichier .gitignore pour éviter de le versionner :                       
 echo ".env" >> .gitignore                                                          
