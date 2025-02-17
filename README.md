@@ -1,4 +1,4 @@
-# Popeye-T-DOP-601-NCY-
+# 🐳 Popeye - Projet DevOps avec Docker 🐳
 
 🐳 Popeye - Projet DevOps avec Docker 🐳
 Bienvenue sur Popeye, un projet basé sur Docker et Docker Compose permettant de déployer une application complète de vote en utilisant Flask, Redis, Java et Node.js.
