@@ -38,6 +38,18 @@ Vérifiez que Docker est bien installé :
 docker --version                                       
 docker-compose --version                                      
 
+⚙️ Configurer l'environnement (.env)
+Avant de démarrer l'application, créez un fichier .env à la racine du projet.
+Ajoutez-y les variables d'environnement suivantes :
+REDIS_HOST=redis
+POSTGRES_HOST=db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=postgres
+
+Ajoutez ensuite le fichier .env au fichier .gitignore pour éviter de le versionner :                       
+echo ".env" >> .gitignore                                                          
+
 3️⃣ Démarrer les conteneurs                               
 docker-compose up --build                                                      
 Cela construit et démarre tous les services.                                   
@@ -79,5 +91,5 @@ Après avoir soumis des votes via poll, ils seront :
 Stockés dans Redis.                                       
 Traitement par le worker.                             
 Enregistrés dans la base de données PostgreSQL (db).                            
-Affichés dynamiquement sur result.                           ges
+Affichés dynamiquement sur result.              
 ![Popeye du dessin animé](image/popeye-dessin-anime.png)
