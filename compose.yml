@@ -1,79 +1,69 @@
+version: "3.8"  # Déclare la version de Docker Compose utilisée
+
 services:
   poll:
-    build: ./poll
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
+    build: ./poll  # Construit l'image à partir du Dockerfile dans le dossier "poll"
+    env_file:
+      - .env # Le .env va définit l'hôte Redis pour l'application Poll et spécifie le port de connexion Redis
     ports:
-      - "5000:80"
+      - "5000:80"  # Expose le port 5000 du host vers le port 80 du conteneur
     networks:
-      - poll-tier
-      - back-tier
+      - poll-tier  # Connecte ce service au réseau "poll-tier"
     depends_on:
-      - redis
-    restart: always
-
+      - redis  # Assure que Redis est lancé avant ce service
+    restart: always  # Redémarre automatiquement le conteneur en cas de crash
 
   redis:
-    image: redis:alpine
+    image: redis:alpine  # Utilise l'image officielle Redis en version Alpine (plus légère)
+    env_file:
+      - .env # Définit la variable d'environnement pour Redis
     ports:
-      - "6379:6379"
+      - "6379:6379"  # Expose le port Redis sur le même port du host
     networks:
-      - back-tier
-    restart: always
+      - poll-tier  # Connecte Redis au réseau "poll-tier"
+      - back-tier  # Connecte Redis au réseau "back-tier" pour communication avec worker
+    restart: always  # Redémarre automatiquement en cas de panne
 
   worker:
-    build: ./worker
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: votes
-      POSTGRES_HOST: db
-      POSTGRES_PORT: 5432
+    build: ./worker  # Construit l'image depuis le Dockerfile dans le dossier "worker"
+    env_file:
+      - .env # Le .env va spécifie l'adresse Redis, définit le port Redis, définit l'utilisateur pour PostgreSQL, mot de passe
+             # Nom de la base de données utilisée, hôte de la base de données et port PostgreSQL
     networks:
-      - back-tier
+      - back-tier  # Connecte worker au réseau back-tier pour communiquer avec la BD et Redis
     depends_on:
-      - redis
-      - db
-    restart: always
-
+      - redis  # Redis doit être disponible avant de lancer worker
+      - db  # La base de données doit être prête avant worker
+    restart: always  # Redémarrage automatique en cas de crash
 
   db:
-    image: postgres:alpine
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: votes
+    image: postgres:alpine  # Utilise PostgreSQL avec une version légère d'Alpine
+    env_file:
+      - .env # Le .env va donner un nom d'utilisateur de la base de données, un mot de passe, Nom de la base et le port d'écoute PostgreSQL
     volumes:
-      - db-data:/var/lib/postgresql/data
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - db-data:/var/lib/postgresql/data  # Permet de rendre la BD persistante
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql  # Charge un script SQL à l'initialisation
     networks:
-      - back-tier
-    restart: always
+      - result-tier  # Connecte la base de données au réseau result-tier
+      - back-tier  # Connecte la base de données au réseau back-tier
+    restart: always  # Assure le redémarrage en cas d'erreur
 
   result:
-    build: ./result
+    build: ./result  # Construit l'image depuis le Dockerfile dans le dossier "result"
+    env_file:
+      - .env # Le .env va donner un identifiants pour la BD, mot de passe, nom de la BD, l'hôte de la BD, le port PostgreSQL
     ports:
-      - "5001:80"
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: votes
-      POSTGRES_HOST: db
-      POSTGRES_PORT: 5432
+      - "5001:80"  # Redirige le port 5001 du host vers le port 80 du conteneur
     networks:
-      - result-tier
-      - back-tier
+      - result-tier  # Connecte result au réseau result-tier
     depends_on:
-      - db
-    restart: always
+      - db  # Assure que la base de données est prête avant de lancer result
+    restart: always  # Redémarrage automatique
 
 networks:
-  poll-tier:
-  result-tier:
-  back-tier:
+  poll-tier:  # Réseau pour poll et redis
+  result-tier:  # Réseau pour result et db
+  back-tier:  # Réseau pour worker, redis et db
 
 volumes:
-  db-data:
+  db-data:  # Volume pour persister les données PostgreSQL

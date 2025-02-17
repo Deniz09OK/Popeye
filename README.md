@@ -79,6 +79,5 @@ Après avoir soumis des votes via poll, ils seront :
 Stockés dans Redis.                                       
 Traitement par le worker.                             
 Enregistrés dans la base de données PostgreSQL (db).                            
-Affichés dynamiquement sur result.                              
-
+Affichés dynamiquement sur result.                           ges
 ![Popeye du dessin animé](image/popeye-dessin-anime.png)
